@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+# This Repo Consist of Tips Related to MUI (Material UI)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

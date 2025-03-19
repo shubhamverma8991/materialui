@@ -1,16 +1,16 @@
 import React, { createContext, useState, useMemo } from "react";
 import { createTheme, ThemeProvider, CssBaseline, colors } from "@mui/material";
 
-// ✅ Context is better without unnecessary values like `theme` itself.
-// (Typically, context shares state & actions, not the whole theme)
 export const ThemeContext = createContext({
   darkMode: false,
   toggleDarkMode: () => {},
+  checkboxColor: colors.blue[500], // ✅ Add checkboxColor to context
+  setCheckboxColor: () => {}, // ✅ Function to update checkbox color
 });
 
-// ✅ Component function name should be PascalCase
 export const ThemeContextProvider = ({ children }) => {
   const [darkMode, setDarkMode] = useState(false);
+  const [checkboxColor, setCheckboxColor] = useState(colors.blue[500]); // ✅ Store checkboxColor
 
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => !prevMode);
@@ -35,8 +35,8 @@ export const ThemeContextProvider = ({ children }) => {
       palette: {
         mode: darkMode ? "dark" : "light",
         primary: primaryColor,
+        checkbox: { main: checkboxColor }, // ✅ Use checkboxColor from state
       },
-      // ❗️ MuiButton styles should go under `components` in MUI v5+
       components: {
         MuiButton: {
           variants: [
@@ -53,13 +53,28 @@ export const ThemeContextProvider = ({ children }) => {
             },
           ],
         },
+        MuiCheckbox: {
+          variants: [
+            {
+              props: { variant: "customCheckBox" },
+              style: ({ theme }) => ({
+                color: theme.palette.checkbox.main,
+                "&.Mui-checked": {
+                  color: theme.palette.checkbox.main,
+                },
+              }),
+            },
+          ],
+        },
       },
     });
-  }, [darkMode]);
+  }, [darkMode, checkboxColor]); // ✅ Rerun theme when checkboxColor changes
 
   const contextValue = {
     darkMode,
     toggleDarkMode,
+    checkboxColor, // ✅ Provide checkboxColor in context
+    setCheckboxColor, // ✅ Allow components to update checkboxColor
   };
 
   return (

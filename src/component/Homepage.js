@@ -1,8 +1,9 @@
-import React from "react";
-import { Container, Typography, Paper, Box } from "@mui/material";
-import CustomButton from "../common/CustomButton";
+import React, { useContext } from "react";
+import { Container, Typography, Paper, Box, Button, Checkbox } from "@mui/material";
+import { ThemeContext } from "../ThemeContext";
 
 function Homepage() {
+  const { darkMode, toggleDarkMode } = useContext(ThemeContext);
   return (
     <Container maxWidth="md" sx={{ mt: 4 }}>
       <Paper elevation={3} sx={{ p: 3, textAlign: "center" }}>
@@ -14,7 +15,8 @@ function Homepage() {
         </Typography>
         <Box sx={{ mt: 3 }}>
           <Typography variant="body2">This is a box with elevation.</Typography>
-          <CustomButton />
+          <Button variant="primaryOutlinedCustom">Hello There !</Button>
+          <Checkbox variant="customCheckBox" checked={darkMode} onChange={toggleDarkMode} />
         </Box>
       </Paper>
     </Container>
